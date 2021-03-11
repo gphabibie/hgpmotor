@@ -49,7 +49,7 @@ export class GpmotorAssetContract extends Contract {
     public async updateGpmotorAsset(ctx: Context, gpmotorAssetId: string, maker: string, model: string, year: number): Promise<void> {
         const hasAccess = await this.hasRole(ctx, ['Manufacturer', 'Dealer']);
         if (!hasAccess) {
-            throw new Error(`Only manufacturer or dealer can update car asset`);
+            throw new Error(`Only manufacturer or dealer can update motor asset`);
         }
         const exists = await this.gpmotorAssetExists(ctx, gpmotorAssetId);
         if (!exists) {
@@ -67,7 +67,7 @@ export class GpmotorAssetContract extends Contract {
     public async deleteGpmotorAsset(ctx: Context, gpmotorAssetId: string): Promise<void> {
         const hasAccess = await this.hasRole(ctx, ['Dealer']);
         if (!hasAccess) {
-            throw new Error(`Only dealer can delete car asset`);
+            throw new Error(`Only dealer can delete motor asset`);
         }
         const exists = await this.gpmotorAssetExists(ctx, gpmotorAssetId);
         if (!exists) {
