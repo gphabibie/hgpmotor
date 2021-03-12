@@ -4,7 +4,7 @@
 
 import { Context, Contract, Info, Returns, Transaction } from 'fabric-contract-api';
 import { GpmotorAsset } from './gpmotor-asset';
-
+// update 12 mar 21 12:51
 @Info({title: 'GpmotorAssetContract', description: 'My Smart Contract' })
 export class GpmotorAssetContract extends Contract {
 
