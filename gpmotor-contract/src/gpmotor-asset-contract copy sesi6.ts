@@ -4,7 +4,7 @@
 
 import { Context, Contract, Info, Returns, Transaction } from 'fabric-contract-api';
 import { GpmotorAsset } from './gpmotor-asset';
-// update 14 mar 21 
+// update 12 mar 21 12:51
 @Info({title: 'GpmotorAssetContract', description: 'My Smart Contract' })
 export class GpmotorAssetContract extends Contract {
 
@@ -23,7 +23,7 @@ export class GpmotorAssetContract extends Contract {
         }
         const exists = await this.gpmotorAssetExists(ctx, gpmotorAssetId);
         if (exists) {
-            throw new Error(`The gpmotor asset ${gpmotorAssetId} already exists`);
+            throw new Error(`The gpmotro asset ${gpmotorAssetId} already exists`);
         }
         const gpmotorAsset = new GpmotorAsset();
         gpmotorAsset.maker = maker;
@@ -31,11 +31,6 @@ export class GpmotorAssetContract extends Contract {
         gpmotorAsset.year = year;
         const buffer = Buffer.from(JSON.stringify(gpmotorAsset));
         await ctx.stub.putState(gpmotorAssetId, buffer);
-        
-        const transientMap = ctx.stub.getTransient();
-        if (transientMap.get('remark')) {
-            await ctx.stub.putPrivateData('productionRemark', gpmotorAssetId, transientMap.get('remark'));
-        }
     }
 
     @Transaction(false)
@@ -47,16 +42,7 @@ export class GpmotorAssetContract extends Contract {
         }
         const buffer = await ctx.stub.getState(gpmotorAssetId);
         const gpmotorAsset = JSON.parse(buffer.toString()) as GpmotorAsset;
-        //return gpmotorAsset;
-        
-        try {
-            const privBuffer = await ctx.stub.getPrivateData('productionRemark', gpmotorAssetId);
-            gpmotorAsset.remark = privBuffer.toString();
-            return gpmotorAsset;
-        } catch (error) {
-            return gpmotorAsset;
-        }
-
+        return gpmotorAsset;
     }
 
     @Transaction()

@@ -9,5 +9,9 @@ export class GpmotorAsset {
 
     @Property()
     public value: string;
+    public maker: string;
+    public model: string;
+    public year: number;
+    public remark: string;
 
 }
