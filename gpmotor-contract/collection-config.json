@@ -8,7 +8,7 @@
       "memberOnlyRead": true,
       "memberOnlyWrite": false,
       "endorsementPolicy": {
-        "signaturePolicy": "OR('Org1MSP.member')"
+      "signaturePolicy": "OR('Org1MSP.member')"
       }
     }
   ]

@@ -186,6 +186,33 @@ export class GpmotorAssetContract extends Contract {
         }
     }
 
+    @Transaction(false)
+    public async getHistoryByKey(ctx: Context, gpmotorAssetId: string): Promise<string> {
+        const iterator = await ctx.stub.getHistoryForKey(gpmotorAssetId);
+        const allResults = [];
+        while (true) {
+            const res = await iterator.next();
+            if (res.value && res.value.value.toString()) {
+                console.log(res.value.value.toString('utf8'));
+
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    Record = res.value.value.toString('utf8');
+                }
+                allResults.push({ Record });
+            }
+            if (res.done) {
+                console.log('end of data');
+                await iterator.close();
+                console.info(allResults);
+                return JSON.stringify(allResults);
+            }
+        }
+    }
+
     public async hasRole(ctx: Context, roles: string[]) {
         const clientID = ctx.clientIdentity;
         for (const roleName of roles) {
